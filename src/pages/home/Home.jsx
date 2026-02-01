@@ -83,7 +83,7 @@ const AppBar = styled(MuiAppBar, { shouldForwardProp: (prop) => prop !== 'open' 
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
-  borderRadius: theme.shape.borderRadius,
+  borderRadius: '20px',
   backgroundColor: alpha(theme.palette.common.white, 0.15),
   '&:hover': { backgroundColor: alpha(theme.palette.common.white, 0.25) },
   marginLeft: theme.spacing(2),
@@ -160,7 +160,7 @@ export default function Home() {
                 {mode === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
               </IconButton>
               <Search>
-                <Box sx={{ p: '0 16px', height: '100%', position: 'absolute', display: 'flex', alignItems: 'center' }}><SearchIcon /></Box>
+                <Box sx={{ p: '16px', height: '100%', position: 'absolute', display: 'flex', alignItems: 'center' }}><SearchIcon /></Box>
                 <StyledInputBase placeholder="Pesquisar..." />
               </Search>
               <Avatar sx={{ ml: 2 }} alt="Perfil" src="" />
