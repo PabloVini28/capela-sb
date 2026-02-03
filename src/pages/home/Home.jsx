@@ -60,36 +60,44 @@ const SaintCard = styled(Card)(({ theme, height }) => ({
   backgroundColor: theme.palette.background.paper,
 }));
 
-const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
-  ({ theme, open }) => ({
-    flexGrow: 1,
-    padding: theme.spacing(3),
-    marginLeft: `-${drawerWidth}px`,
-    transition: theme.transitions.create("margin", {
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    ...(open && {
-      transition: theme.transitions.create("margin", {
-        duration: theme.transitions.duration.enteringScreen,
+const Main = styled("main", {
+  shouldForwardProp: (prop) => prop !== "open" && prop !== "overlay",
+})(({ theme, open, overlay }) => ({
+  flexGrow: 1,
+  padding: theme.spacing(3),
+  ...(overlay
+    ? {}
+    : {
+        marginLeft: `-${drawerWidth}px`,
+        transition: theme.transitions.create("margin", {
+          duration: theme.transitions.duration.leavingScreen,
+        }),
+        ...(open && {
+          transition: theme.transitions.create("margin", {
+            duration: theme.transitions.duration.enteringScreen,
+          }),
+          marginLeft: 0,
+        }),
       }),
-      marginLeft: 0,
-    }),
-  }),
-);
+}));
 
 const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
-  transition: theme.transitions.create(["margin", "width"], {
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: `${drawerWidth}px`,
-    transition: theme.transitions.create(["margin", "width"], {
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
+  shouldForwardProp: (prop) => prop !== "open" && prop !== "overlay",
+})(({ theme, open, overlay }) => ({
+  ...(overlay
+    ? {}
+    : {
+        transition: theme.transitions.create(["margin", "width"], {
+          duration: theme.transitions.duration.leavingScreen,
+        }),
+        ...(open && {
+          width: `calc(100% - ${drawerWidth}px)`,
+          marginLeft: `${drawerWidth}px`,
+          transition: theme.transitions.create(["margin", "width"], {
+            duration: theme.transitions.duration.enteringScreen,
+          }),
+        }),
+      }),
 }));
 
 const Search = styled("div")(({ theme }) => ({
@@ -242,6 +250,7 @@ export default function Home() {
         <AppBar
           position="fixed"
           open={open}
+          overlay={isMobile}
           sx={{
             bgcolor: mode === "dark" ? "#660005" : "#F5F5DC",
             color: mode === "dark" ? "#F5F5DC" : "#3B0606",
@@ -294,7 +303,8 @@ export default function Home() {
             width: drawerWidth,
             "& .MuiDrawer-paper": { width: drawerWidth },
           }}
-          variant="persistent"
+          variant={isMobile ? "temporary" : "persistent"}
+          // variant="persistent"
           anchor="left"
           open={open}
         >
@@ -349,6 +359,7 @@ export default function Home() {
 
         <Main
           open={open}
+          overlay={isMobile}
           sx={{
             mt: 10,
             display: "flex",
